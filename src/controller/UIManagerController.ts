@@ -1,5 +1,5 @@
 import { Theme } from "../domain/model/Theme";
-import { UIManagerOptions } from "../services/UIManagerOptions";
+import { UIManagerOptions } from "../lib/types/UIManagerOptions";
 import { UIManagerService } from "../services/UIManagerService";
 
 export class UIManagerController {
@@ -33,7 +33,7 @@ export class UIManagerController {
         // Retornamos un objeto con los componentes generados
         return {
           // Clase CSS global para el tema
-          themeClass: this.uiManagerService.getThemeClass(selectedTheme),
+          themeParam: this.uiManagerService.getThemeClass(selectedTheme),
           // Botón generado con el onClick y label correspondientes
           button: this.uiManagerService.getButton(buttonOptions.onClick, buttonOptions.label),
           // Input de texto: se envían el tipo, valor, onChange y placeholder

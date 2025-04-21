@@ -1,42 +1,177 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+
+:root {
+  --yellow: #FBFFDC;
+
+  --light-green: #EAF5ED;
+  --green-100: #cffcdf;
+  --green-200: #a3f7c4;
+  --green-300: #68eda6;
+  --green-400: #2cdb83;
+  --green-500: #08c16b;
+  --green-600: #009d57;
+  --green-700: #007e48;
+  --green-800: #02633b;
+  --green-900: #035132;
+  --green-950: #004028;
+
+  --white: #FFFFFF;
+  --background-color: var(--white);
+  --text-color: var(--green-950);
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
+body.dark-mode {
+  --background-color: var(--green-950);
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+
+  & section {
+    border-left: 6px outset var(--green-200);
+    border-bottom: 6px outset var(--green-200);
+
   }
-  to {
-    transform: rotate(360deg);
+
+  & section, button {
+    background-color: var(--green-800);
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+ 
+  & h2 {
+    color: var(--light-green)
   }
+
+  & input, textarea, select, .checkbox {
+    border: none;
+    border: 1px solid var(--green-600);
+    background: var(--green-200);
+    border-radius: 8px;
+    padding: 8px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: var(--green-950)
+
+    /* width: calc(100% - 16px); */
+  }
+  & input:focus {
+    outline: none !important;
+    border: 1px solid var(--green-500);
+  }
+
+  & button, .checkbox {
+    color: var(--yellow);
+  
+    background-color: var(--green-700);
+
+    &:hover {
+      background-color: var(--green-600);
+      border-left: 2px solid var(--green-200);
+    
+    border-bottom: 2px solid var(--green-200);
+    }
+  }
+
+  & p, label {
+    color: var(--light-green);
+  }
+
+
+  
 }
 
-.card {
-  padding: 2em;
-}
+body {
+  margin: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  box-sizing: border-box;
+  padding: 56px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  transition: background-color 0.3s ease, color 0.3s ease;
 
-.read-the-docs {
-  color: #888;
+
+  & section {
+    background-color: var(--light-green);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 24px 24px;
+    min-width: 28em;
+    width: auto;
+    height: auto;
+    border-left: 6px outset var(--green-950);
+    border-bottom: 6px outset var(--green-900);
+
+  }
+
+  & section>div {
+    flex: 1;
+  }
+
+  & div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  & .row {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+  }
+
+  & h1 {
+    text-align: center;
+    margin: 24px 0 16px;
+  }
+
+  & p {
+    text-align: center;
+    margin: 0;
+  }
+
+  & input, textarea, select {
+    border: none;
+    border: 1px solid var(--green-900);
+    border-radius: 8px;
+    padding: 8px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    /* width: calc(100% - 16px); */
+  }
+  & input:focus {
+    outline: none !important;
+    border: 1px solid var(--green-950);
+  }
+   
+  & button {
+    align-self: auto;
+    background-color: var(--yellow);
+    color: var(--green-950);
+    cursor: pointer;
+    border: 1px solid var(--green-950);
+    border-radius: 8px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    padding: 8px 16px;
+    transition: border 0.1s ease;
+    &:hover {
+      border-left: 2px solid var(--green-950);
+      border-bottom: 2px solid var(--green-950);
+    }
+
+    /* & textarea {
+      background-color: var(--yellow);
+
+    } */
+  } 
+
+  
 }

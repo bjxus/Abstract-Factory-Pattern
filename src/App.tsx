@@ -1,32 +1,33 @@
 // App.tsx
-import React, { useState, useEffect, useMemo, useCallback, JSX } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { UIManagerController } from "./controller/UIManagerController";
 import { UIManagerService } from "./services/UIManagerService";
 import { ThemeService } from "./services/ThemeService";
 import { Payment } from "./domain/model/Payment";
 import { PaymentService } from "./services/PaymentService";
+import { XStateMachine } from "./XStateMachineWizard";
+import { UIManagerComponents } from "./lib/types/UIManagerOptions";
+
 
 const App: React.FC = () => {
   // Estado para el tema
   const [theme, setTheme] = useState("LIGHT");
+
+  console.log("Tema global: " + theme);
+  
 
   const [payment, setPayment] = useState({
     type: "",
     amount: "",
   });
 
-  const [isToast, setIsToast] = useState(false)  
+  const [isToast, setIsToast] = useState(false)
 
   const [response, setResponse] = useState("");
 
-  const [uiComponents, setUIComponents] = useState<{
-    themeClass: string;
-    textFieldText: JSX.Element;
-    numberTextField: JSX.Element;
-    button: JSX.Element;
-    select?: JSX.Element;
-    toast: JSX.Element;
-  }>();
+  const [uiComponents, setUIComponents] = useState<UIManagerComponents>();
+
+  console.log("Tema global: " + uiComponents?.themeClass);
 
   // Instanciar servicios y controladores
   const themeService = useMemo(() => new ThemeService(), []);
@@ -41,7 +42,6 @@ const App: React.FC = () => {
   const handleClose = () => {
     setIsToast(false)
   }
-
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,22 +59,19 @@ const App: React.FC = () => {
     const result = await paymentServiceInstance.processPayment(newPayment);
     setResponse(result);
     setIsToast(true)
-    setPayment({
-      type: "",
-      amount: ""
-    })
-    console.log("Pago procesado correctamente:", result);
+    
+    console.log("Pago procesado correctamente: ", result);
   };
 
   // Actualizamos la UI cada vez que cambia el tema o el estado de payment
   useEffect(() => {
 
     if (theme === "DARK") {
-      document.body.classList.remove("bg-light");
-      document.body.classList.add("bg-dark");
+     
+      document.body.classList.add("dark-mode");
     } else {
-      document.body.classList.remove("bg-dark");
-      document.body.classList.add("bg-light");
+      document.body.classList.remove("dark-mode");
+      
     }
     // Construimos las opciones agrupadas para cada componente:
     const uiOptions = {
@@ -95,11 +92,11 @@ const App: React.FC = () => {
         placeholder: "$10.000",
         type: "number",
       },
-  
+
       select: {
         themeParam: theme,
         onChange: handleThemeChange,
-        
+
       },
 
       toast: {
@@ -110,13 +107,24 @@ const App: React.FC = () => {
 
     // Llamamos a getUI pasando el objeto completo
     const ui = uiManagerController.getUI(uiOptions);
-    setUIComponents(ui);
+    setUIComponents({
+      themeClass: ui.themeParam,
+      button: ui.button,
+      textFieldText: ui.textFieldText,
+      numberTextField: ui.numberTextField,
+      select: ui.select,
+      toast: ui.toast,
+    });
   }, [theme, uiManagerController, payment]);
 
+  console.log(uiComponents?.themeClass)
+
   return (
-    <div className={`container content-container ${uiComponents?.themeClass}`}>
+   
+    <div className={uiComponents?.themeClass}>
+      
       <div className="row mb-4">
-        
+
         <div className="col-auto">
           <div className="theme-switch mb-2">
             <label htmlFor="themeSelect" className="form-label">
@@ -127,22 +135,9 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      <div className="row">
-        <div className="col">
-        <h1 className={`bg-${theme} ${theme === "DARK" ? "text-white" : "text-dark"}`}>Procesador de pagos</h1>
-          <div className="search-container d-flex gap-2 mb-2">
-            <div className="flex-grow-1">{uiComponents?.textFieldText}</div>
-            <div>{uiComponents?.numberTextField}</div>
-            <div>{uiComponents?.button}</div>
-            
-          </div>
-        </div>
-      </div>
-      {isToast && (
-        <div>{uiComponents?.toast}</div>
-      )}
-      
+      {uiComponents && <XStateMachine uiComponents={uiComponents} isToast={isToast} payment={payment}theme={theme} />}
     </div>
+
   );
 };
 

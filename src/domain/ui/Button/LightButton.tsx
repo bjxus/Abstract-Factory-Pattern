@@ -3,7 +3,19 @@ import { Button } from "./Button";
 
 export class LightButton implements Button {
     render(onClick: () => void, label: string): JSX.Element {
-       return <button className='focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2' onClick={onClick}>{label}</button>
+       return <button className='bg-[#FBFFDC] 
+    text-[#004028] 
+    cursor-pointer 
+    border 
+    border-[#004028] 
+    rounded-lg 
+    font-poppins 
+    font-normal 
+    px-4 
+    py-2 
+    transition-all
+    hover:border-l-2
+    hover:border-b-2' onClick={onClick}>{label}</button>
     }
     
 
