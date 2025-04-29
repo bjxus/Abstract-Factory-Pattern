@@ -6,7 +6,6 @@ import { UserInfo } from "./UserInfo";
 
 export class ReportPDF {
     readonly includeLogo: boolean;
-    readonly imageSrc: string | null;
     readonly title: string;
     readonly includePaymentDetails: boolean;
     readonly paymentDetails: PaymentDetails;
@@ -19,7 +18,6 @@ export class ReportPDF {
   
     constructor(builder: ReportPDFBuilder) {
       this.includeLogo = builder.includeLogo;
-this.imageSrc = builder.imageSrc || null;
       this.title = builder.title;
       this.includePaymentDetails = builder.includePaymentDetails;
       this.paymentDetails = builder.paymentDetails;

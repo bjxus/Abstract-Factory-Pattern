@@ -3,10 +3,10 @@ import { PaymentDetails } from "../model/PaymentDetails";
 import { ReportPDF } from "../model/ReportPDF";
 import { Theme } from "../model/Theme";
 import { UserInfo } from "../model/UserInfo";
+import { IBuilder } from "./IBuilder";
 
-export class ReportPDFBuilder {
+export class ReportPDFBuilder implements IBuilder<ReportPDF> {
   includeLogo: boolean = false;
-  imageSrc?: string | null;
   title: string = 'Reporte';
   includePaymentDetails: boolean = false;
   paymentDetails: PaymentDetails = {
@@ -25,9 +25,8 @@ export class ReportPDFBuilder {
   footerMessage: string = '';
   format: Format = Format.A4;
 
-  withLogo(value: boolean, imageSrc: string | null): this {
+  withLogo(value: boolean): this {
     this.includeLogo = value;
-    this.imageSrc = imageSrc;
     return this;
   }
 

@@ -40,11 +40,21 @@ export class UIManagerService {
         return textField.render(type, value, onChange, placeholder);
     }
 
-    getSelect(theme: string, onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void): JSX.Element {
+    getSelect(theme: string, onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void, withCheckbox: boolean = false): JSX.Element {
 
         const select: Select = this.currentFactory.createSelect();
-        return select.render(theme, onChange)
+        return select.render(theme, onChange, withCheckbox)
     }
+
+    getPaymentSelector(theme: string, selected: string, onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void): JSX.Element {
+        
+        const select: Select = this.currentFactory.createSelect();
+        return select.render(theme, onChange, true, selected)
+            
+      }
+      
+      
+      
 
     getToast(text: string, onClick: () => void): JSX.Element {
 

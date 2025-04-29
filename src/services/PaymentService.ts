@@ -16,6 +16,9 @@ export class PaymentService {
           }
       });
 
+      console.log("Responseeee -> " + response.data);
+      
+
       return response.data;
 
     } catch (error) {

@@ -2,11 +2,9 @@ import React, { useEffect, useMemo, useState } from "react";
 import ReportDocument from "./ReportDocument";
 
 import ReportViewerReduced from "./layouts/ReportViewerReduced";
-import Modal from "./components/Modal/Modal/Modal";
+
 import { Format } from "./lib/types/StateMachineTypes";
-import { pdf, PDFViewer } from "@react-pdf/renderer";
-import ReportViewerExpanded from "./layouts/ReportViewerExpanded";
-import ModalHeader from "./components/Modal/Modal/ModalHeader";
+import { pdf } from "@react-pdf/renderer";
 
 interface ReportViewerProps {
   includeLogo?: boolean;
@@ -24,10 +22,14 @@ const ReportViewer: React.FC<ReportViewerProps> = (reportPDF: ReportViewerProps)
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
+  const reportDoc = useMemo(() => <ReportDocument {...reportPDF} />, [reportPDF]); 
+
   // Genera el PDF una sola vez
   useEffect(() => {
+
+    
     const generatePdf = async () => {
-      const blob = await pdf(<ReportDocument {...reportPDF} />).toBlob();
+      const blob = await pdf(reportDoc).toBlob();
       const url = URL.createObjectURL(blob);
       setPdfUrl(url);
 
@@ -35,7 +37,7 @@ const ReportViewer: React.FC<ReportViewerProps> = (reportPDF: ReportViewerProps)
     };
 
     generatePdf();
-  }, [reportPDF]); 
+  }, [reportDoc]); 
 
   const handleExpand = () => {
     if (pdfUrl) {

@@ -83,7 +83,6 @@ export const wizardMachine = createMachine({
             },
         },
         confirmation: {
-            type: 'final',
             on: {
                 PREVIOUS: {
                     target: 'step2',

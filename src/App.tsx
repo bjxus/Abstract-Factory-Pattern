@@ -13,21 +13,23 @@ const App: React.FC = () => {
   // Estado para el tema
   const [theme, setTheme] = useState("LIGHT");
 
-  console.log("Tema global: " + theme);
-  
+  const [selector, setSelector] = useState("paypal");
 
-  const [payment, setPayment] = useState({
-    type: "",
-    amount: "",
-  });
+
+  
 
   const [isToast, setIsToast] = useState(false)
 
-  const [response, setResponse] = useState("");
+  const [response, setResponse] = useState<string>("");
+
+  const [payment, setPayment] = useState({
+    type: selector,
+    amount: 0,
+  });
+  
 
   const [uiComponents, setUIComponents] = useState<UIManagerComponents>();
 
-  console.log("Tema global: " + uiComponents?.themeClass);
 
   // Instanciar servicios y controladores
   const themeService = useMemo(() => new ThemeService(), []);
@@ -38,6 +40,10 @@ const App: React.FC = () => {
   const handleThemeChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     setTheme(e.target.value);
   }, []);
+
+  const handleSelectorPaymentChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelector(e.target.value);
+  }, [])
 
   const handleClose = () => {
     setIsToast(false)
@@ -55,12 +61,19 @@ const App: React.FC = () => {
 
   const handleProcessPayment = async () => {
     const paymentServiceInstance: PaymentService = new PaymentService();
-    const newPayment = new Payment(payment.type, Number(payment.amount));
+    const newPayment = new Payment(selector, Number(payment.amount));
     const result = await paymentServiceInstance.processPayment(newPayment);
-    setResponse(result);
-    setIsToast(true)
     
-    console.log("Pago procesado correctamente: ", result);
+    
+    setResponse(`Pago realizado exitosamente por: $${result.amount}`);
+
+    setPayment({
+      ...payment,
+      amount: result.amount,
+    })
+
+    setIsToast(true);
+    
   };
 
   // Actualizamos la UI cada vez que cambia el tema o el estado de payment
@@ -96,7 +109,13 @@ const App: React.FC = () => {
       select: {
         themeParam: theme,
         onChange: handleThemeChange,
+        withCheckbox: false,
 
+      },
+      selectorPayment: {
+        
+        selected: selector,
+        onChange: handleSelectorPaymentChange,
       },
 
       toast: {
@@ -113,11 +132,12 @@ const App: React.FC = () => {
       textFieldText: ui.textFieldText,
       numberTextField: ui.numberTextField,
       select: ui.select,
+      selectorPayment: ui.paymentSelector,
       toast: ui.toast,
     });
-  }, [theme, uiManagerController, payment]);
+  }, [theme, uiManagerController, payment, selector]);
 
-  console.log(uiComponents?.themeClass)
+  
 
   return (
    
@@ -135,7 +155,9 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      {uiComponents && <XStateMachine uiComponents={uiComponents} isToast={isToast} payment={payment}theme={theme} />}
+
+
+      {uiComponents && <XStateMachine uiComponents={uiComponents} isToast={isToast} payment={payment} theme={theme} />}
     </div>
 
   );

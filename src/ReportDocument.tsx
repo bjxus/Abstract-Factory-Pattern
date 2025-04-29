@@ -68,11 +68,11 @@ interface ReportDocumentProps {
   
   paymentDetails?: {
     transactionId: string;
-    paymentType: string;
+    type: string;
     amount: number;
   };
   userInfo?: {
-    name: string;
+    nameUser: string;
     email: string;
     phone: string;
   };
@@ -103,7 +103,7 @@ const ReportDocument: React.FC<ReportDocumentProps> = ({
         <View style={currentStyles.header}>
           {includeLogo && (
             <Image
-              src="/path/to/logo.png" // Deberías pasar esta ruta por props
+              src={`${theme === 'DARK' ? '/colorful-digital-payment-logo-vector.jpg' : '/colorful-digital-payment-logo-vector-dark.jpg' }`}
               style={currentStyles.logo}
             />
           )}
@@ -115,7 +115,7 @@ const ReportDocument: React.FC<ReportDocumentProps> = ({
           <View style={currentStyles.section}>
             <Text style={currentStyles.label}>Detalles de pago:</Text>
             <Text>Transacción: {paymentDetails.transactionId}</Text>
-            <Text>Tipo de pago: {paymentDetails.paymentType}</Text>
+            <Text>Tipo de pago: {paymentDetails.type}</Text>
             <Text>Monto: ${paymentDetails.amount}</Text>
           </View>
         )}
@@ -124,7 +124,7 @@ const ReportDocument: React.FC<ReportDocumentProps> = ({
         {includeUserInfo && userInfo && (
           <View style={currentStyles.section}>
             <Text style={currentStyles.label}>Información del usuario:</Text>
-            <Text>Nombre: {userInfo.name}</Text>
+            <Text>Nombre: {userInfo.nameUser}</Text>
             <Text>Email: {userInfo.email}</Text>
             <Text>Teléfono: {userInfo.phone}</Text>
           </View>

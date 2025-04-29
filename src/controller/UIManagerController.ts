@@ -19,6 +19,7 @@ export class UIManagerController {
           textFieldText: textFieldOptions,
           numberTextField: numberTextFieldOptions,
           select: selectOptions,
+          selectorPayment: selectPaymentOptions,
           toast: toastOptions,
 
         } = options;
@@ -53,8 +54,16 @@ export class UIManagerController {
 
           select: this.uiManagerService.getSelect(
             themeParam,
-            selectOptions.onChange
+            selectOptions.onChange,
+            selectOptions.withCheckbox,
           ),
+
+          paymentSelector: this.uiManagerService.getPaymentSelector(
+            themeParam,
+            selectPaymentOptions.selected,
+            selectPaymentOptions.onChange,
+          ),
+          
 
           toast: this.uiManagerService.getToast(
             toastOptions.text,
